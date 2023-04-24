@@ -70,6 +70,68 @@ router.post('/Get_Documento_Estado', async (req, res) => {
   }
 });
 
+router.post('/Get_Documento_EstadoAsignacionCanal', async (req, res) => {
+  try {
+    const {
+      strNombreEstado,
+      strNombreCanal,
+      strProgreso,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_estadoasignacioncanal($1,$2,$3)', [strNombreEstado, strNombreCanal, strProgreso]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
+router.post('/Get_Documento_Solicitud', async (req, res) => {
+  try {
+    const {
+      intIdSolicitud,
+      intIndividualMasiva,
+      strNombreEstado,
+      strNombreTipo,
+      strNombreEmpresa,
+      intIdAdjuntoSharepoint,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_solicitud($1,$2,$3,$4,$5,$6)', [intIdSolicitud, intIndividualMasiva, strNombreEstado, strNombreTipo, strNombreEmpresa, intIdAdjuntoSharepoint]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
+router.post('/Get_Documento_SolicitudDetalle', async (req, res) => {
+  try {
+    const {
+      intIdSolicitud,
+      intIdEmpresa,
+      strNombreEmpresa,
+      intIdEstado,
+      strNombreEstado,
+      intDte,
+      strProveedor,
+      intNit,
+      numericMonto,
+      intIdMoneda,
+      strDescripcion,
+      intIdPais,
+      intIdSharepoint,
+      intEstado,
+      intCantidad,
+      intCuentaContableSugerida,
+      intCentroCosto,
+      strNombreCuentaSugerida,
+      strCodigoProveedor,
+      strNombreProveedor,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_solicituddetalle($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)', [intIdSolicitud, intIdEmpresa, strNombreEmpresa, intIdEstado, strNombreEstado, intDte, strProveedor, intNit, numericMonto, intIdMoneda, strDescripcion, intIdPais, intIdSharepoint, intEstado, intCantidad, intCuentaContableSugerida, intCentroCosto, strNombreCuentaSugerida, strCodigoProveedor, strNombreProveedor]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
 module.exports = {
   router,
 };

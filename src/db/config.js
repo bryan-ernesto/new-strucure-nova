@@ -16,6 +16,14 @@ const getConnGroupNova = new Pool({
   port: '5432',
 });
 
+const getPrueba = new Pool({
+  host: 'localhost',
+  user: 'postgres',
+  password: 'postgres',
+  database: 'postgres',
+  port: '5432',
+});
+
 module.exports = {
-  getConnNova, getConnGroupNova,
+  getConnNova, getConnGroupNova, getPrueba,
 };
