@@ -21,21 +21,20 @@ router.post('/Get_Documento_DetalleFacturaSat', async (req, res) => {
     const {
       strEmpresa,
       intDte,
-      intNit,
+      strNit,
       strProveedor,
       numericMonto,
       intIdMoneda,
       strDescripcion,
       intIdPais,
       intEstado,
-      intCantidad,
       intCuentaContableSugerida,
       intCentroCosto,
       strNombreCuentaSugerida,
       intCodigoProveedor,
       strNombreProveedor,
     } = req.body;
-    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_detallefacturasat($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)', [strEmpresa, intDte, intNit, strProveedor, numericMonto, intIdMoneda, strDescripcion, intIdPais, intEstado, intCantidad, intCuentaContableSugerida, intCentroCosto, strNombreCuentaSugerida, intCodigoProveedor, strNombreProveedor]);
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_detallefacturasat($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)', [strEmpresa, intDte, strNit, strProveedor, numericMonto, intIdMoneda, strDescripcion, intIdPais, intEstado, intCuentaContableSugerida, intCentroCosto, strNombreCuentaSugerida, intCodigoProveedor, strNombreProveedor]);
     res.status(200).json(response.rows);
   } catch (error) {
     res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
@@ -126,6 +125,36 @@ router.post('/Get_Documento_SolicitudDetalle', async (req, res) => {
       strNombreProveedor,
     } = req.body;
     const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_solicituddetalle($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)', [intIdSolicitud, intIdEmpresa, strNombreEmpresa, intIdEstado, strNombreEstado, intDte, strProveedor, intNit, numericMonto, intIdMoneda, strDescripcion, intIdPais, intIdSharepoint, intEstado, intCantidad, intCuentaContableSugerida, intCentroCosto, strNombreCuentaSugerida, strCodigoProveedor, strNombreProveedor]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
+router.post('/Get_Documento_SolicitudBitacora', async (req, res) => {
+  try {
+    const {
+      intIdRecepcionSolicitud,
+      inIndividualMasiva,
+      strNombreEstado,
+      intEstado,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_solicitudbitacora($1,$2,$3,$4)', [intIdRecepcionSolicitud, inIndividualMasiva, strNombreEstado, intEstado]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
+router.post('/Get_Documento_SolicitudDetalleBitacora', async (req, res) => {
+  try {
+    const {
+      intIdDetDocumentoRecepcionSolicitudDetalle,
+      intDetDocumentoRecepcionSolicitud,
+      strNombreEstado,
+      intEstado,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM recepciones_documento.get_documento_solicituddetallebitacora($1,$2,$3,$4)', [intIdDetDocumentoRecepcionSolicitudDetalle, intDetDocumentoRecepcionSolicitud, strNombreEstado, intEstado]);
     res.status(200).json(response.rows);
   } catch (error) {
     res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
