@@ -45,6 +45,33 @@ router.post('/GetPresupuestoEstado', async (req, res) => {
   }
 });
 
+router.put('/UpdatePresupuestoEstado', async (req, res) => {
+  const {
+    estadoId,
+    nombre,
+    descripcion,
+    estado,
+    actualizadoPor,
+  } = req.body;
+  await getConnGroupNova.query('CALL compras_presupuesto.sp_cat_presupuesto_estado_update($1,$2,$3,$4,$5);', [estadoId, nombre, descripcion, estado, actualizadoPor]);
+  res.send('Estado actualizado correctamente');
+});
+
+router.put('/UpdatePresupuesto', async (req, res) => {
+  const {
+    presupuestoId,
+    empresaId,
+    responsableId,
+    presupuestoEstadoId,
+    monto,
+    año,
+    estado,
+    actualizadoPor,
+  } = req.body;
+  await getConnGroupNova.query('CALL compras_presupuesto.sp_cat_presupuesto_update($1,$2,$3,$4,$5,$6,$7,$8);', [presupuestoId, empresaId, responsableId, presupuestoEstadoId, monto, año, estado, actualizadoPor]);
+  res.send('Presupuesto actualizado correctamente');
+});
+
 module.exports = {
   router,
 };

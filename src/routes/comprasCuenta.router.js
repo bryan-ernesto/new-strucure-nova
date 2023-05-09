@@ -32,6 +32,30 @@ router.post('/GetCuenta', async (req, res) => {
   }
 });
 
+router.put('/UpdateCuentaClasificacion', async (req, res) => {
+  const {
+    clasificacionId,
+    nombre,
+    estado,
+    actualizadoPor,
+  } = req.body;
+  await getConnGroupNova.query('CALL compras_cuenta.sp_tbl_cat_cuenta_clasificacion_update($1,$2,$3,$4);', [clasificacionId, nombre, estado, actualizadoPor]);
+  res.send('Cuenta clasificacion actualizada correctamente');
+});
+
+router.put('/UpdateCuenta', async (req, res) => {
+  const {
+    cuentaId,
+    clasificacionId,
+    nombre,
+    descripcion,
+    estado,
+    actualizadoPor,
+  } = req.body;
+  await getConnGroupNova.query('CALL compras_cuenta.sp_tbl_cat_cuenta_update($1,$2,$3,$4,$5,$6);', [cuentaId, clasificacionId, nombre, descripcion, estado, actualizadoPor]);
+  res.send('Cuenta actualizada correctamente');
+});
+
 module.exports = {
   router,
 };

@@ -216,6 +216,24 @@ router.post('/Get_departamento_responsable', async (req, res) => {
   }
 });
 
+router.post('/Get_Documento_Usuario', async (req, res) => {
+  try {
+    const {
+      strUsuarioNombre,
+      intCreadoPor,
+      intActualizadoPor,
+      strUsername,
+      intEmpresa,
+      intDepartamento,
+      intEquipo,
+    } = req.body;
+    const response = await getConnGroupNova.query('SELECT * FROM usuarios.get_documento_usuario($1,$2,$3,$4,$5,$6,$7)', [strUsuarioNombre, intCreadoPor, intActualizadoPor, strUsername, intEmpresa, intDepartamento, intEquipo]);
+    res.status(200).json(response.rows);
+  } catch (error) {
+    res.status(400).json({ error: `La información ingresada es incorrecta. ${error.message}` });
+  }
+});
+
 module.exports = {
   router,
 };
